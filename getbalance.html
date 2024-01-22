@@ -59,7 +59,7 @@
         document.getElementById("name").value=formData.name
         async function getBalance() {
             try {
-                const response = await axios.post("http://localhost:5000/getBalance", formData);
+                const response = await axios.post("https://svnmbanking.onrender.com/getBalance", formData);
                 console.log(response.data);
                 document.getElementById("balance").value = response.data.bal;
             } catch (error) {
