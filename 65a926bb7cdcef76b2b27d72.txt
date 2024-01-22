@@ -1,0 +1,4 @@
+account id :65a926bb7cdcef76b2b27d72
+ accountholder name :num123456
+account balance :0
+account type :savings

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Page</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #centeredDiv {
+            text-align: center;
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="centeredDiv">
+    <h1>Welcome to the SVNM Banking</h1>
+    <button onclick="navigateToTransaction()">Transaction</button>
+    <button onclick="getBalance()">Get Balance</button>
+    <button style="display: none;" onclick="downloadReceipt()">Download Receipt</button>
+    <button onclick="logout()">LogOut</button>
+</div>
+
+<script>
+    const check=sessionStorage.getItem("islogin")
+    if (check!="true"){
+        window.location.href="/"
+    }
+    function navigateToTransaction() {
+        // Add your logic for navigating to the transaction page
+        window.location.href="/transaction"
+    }
+
+    function getBalance() {
+        // Add your logic for getting the balance
+        window.location.href="/getbalance"
+    }
+
+    function downloadReceipt() {
+        // Add your logic for downloading the receipt
+        window.location.href="/DownloadReceipt"
+    }
+    function logout(){
+        sessionStorage.removeItem("logindetails")
+        sessionStorage.removeItem("islogin")
+        window.location.href="/"
+    }
+</script>
+
+</body>
+</html>

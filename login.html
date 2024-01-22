@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Login Form</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #loginContainer {
+            text-align: center;
+        }
+
+        form {
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+        }
+
+        #submit {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        #submit:hover {
+            background-color: #45a049;
+        }
+
+        a {
+            text-decoration: none;
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div id="loginContainer">
+        <h1>Welcome To SVNM Banking Login Page</h1>
+        <form id="loginForm">
+            <label>
+                Account Holder Name:<br>
+                <input id="name" type="text" name="name" value="" required/>
+            </label><br>
+            <label>
+                Account Password :<br/>
+                <input id="password" type="password" name="password" value="" required/>
+            </label><br><br/>
+            <input id="submit" type="submit" value="Login"/>
+            <p>Don't have an account? <a onclick="signup()">Click to sign up</a></p>
+        </form>
+    </div>
+    <footer><a id="op" style="display:none;"></a></footer>
+    
+    <script>
+        if (sessionStorage.getItem("islogin") == "true") {
+            console.log("islogin checking");
+            window.location.href = "/home";
+        }
+        const submitHandler = async (e) => {
+            e.preventDefault();
+            const name = document.getElementById("name").value;
+            const password = document.getElementById("password").value;
+
+            const formDataObject = {
+                name: name,
+                password: password
+            };
+
+            const response = await axios.post("http://localhost:5000/isLogin", formDataObject);
+            console.log(name, password, response.data);
+
+            if (response.data.login === "true") {
+                console.log("details stored in session storage");
+                sessionStorage.setItem("islogin", true);
+                sessionStorage.setItem("logindetails", JSON.stringify(formDataObject));
+                window.location.href = "/home";
+            }
+
+            console.log("submit handler executed successfully");
+        };
+        document.getElementById("loginForm").addEventListener("submit", submitHandler);
+        async function signup(){
+            window.location.href="/signup"
+        }
+    </script>
+</body>
+</html>
+
+<!--<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <div>
+            <form id="loginForm">
+                <label>
+                    Account Holder Name:<br>
+                    <input id="name"  type="text" name="name" value="" required/>
+                </label><br>
+                <label>
+                    Account Password :<br/>
+                    <input id="password" type="password" name="password" value="" required/>
+                </label><br><br/>
+                <input id="submit" type="submit" value="login"/>
+                <p >dont have an account <a href="login.html" style="text-decoration: none;color:blue">click to sign up</a></p>
+                
+            </form>
+        </div>
+        <footer><a id="op" style="display:none;"></a></footer>
+        
+        <script>
+            if (sessionStorage.getItem("islogin")=="true"){
+                console.log("islogin checking")
+                window.location.href="/home"
+                //await axios.post("http://localhost:5000/isLogin",null)
+                
+            }
+            const submitHandler=async(e)=>{
+                e.preventDefault()
+                const name=document.getElementById("name").value;
+                const password =document.getElementById("password").value
+                
+                const formDataObject={
+                    name:name,password:password
+                }
+                const response=await axios.post("http://localhost:5000/isLogin",formDataObject)
+                console.log(name,password,response.data)
+                if (response.data.login==="true"){
+                    console.log("details stored in session storage")
+                    sessionStorage.setItem("islogin",true)
+                    sessionStorage.setItem("logindetails",JSON.stringify(formDataObject))
+                    //await axios.post("http://localhost:5000/isLogin",{})
+                    window.location.href="/home"
+                }                
+                console.log("submithandler executed successfully")
+            }
+            document.getElementById("loginForm").addEventListener("submit",submitHandler)
+        </script>
+    </body>
+</html>-->
