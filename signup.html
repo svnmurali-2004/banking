@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</head>
+
+<body>
+    <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <form style="padding:2px;width:fit-content;height:100px;border: 2px solid black;">
+                <div id="step1">
+                    <label>Name:
+                        <input id="name" type="text" name="name" value="" /></label><br />
+                    <label>
+                        Gmail:
+                        <input id="email" type="text" name="gmail" value="" />
+                    </label><br />
+                    <input type='button' id="next1" value="Next" />
+                </div>
+                <div id="step2" style="display:none;">
+                    <label>
+                        Enter Phone Number :
+                        <input id="phonenumber" type="number" name="phonenum" value="" />
+                    </label><br />
+                    <label>
+                        Account type :
+                        <select name="type" id="type" placeholder="select">
+                            <option value="savings" >Savings</option>
+                            <option value="current">Current</option>
+                        </select></label><br/>
+                    </label>
+                    <label>
+                        Password :<input type="text" name="password" id="password" value=""/>
+                    </label><br/>
+                    <input id="prev" type="button" value="prev"/>
+                    <input id="submit1" type="submit" value="sign up" />
+                </div>
+                <div id="downloadcontainer" style="display: none;"><button  id="download" type="button">Download</button>
+                    <a id="downloadLink" style="display: none;" download></a></div>
+                
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const step2 = () => {
+            document.getElementById("step1").style.display = 'none'
+            document.getElementById("step2").style.display = "block"
+        }
+        document.getElementById("next1").addEventListener("click", step2)
+        async function prev(){
+            document.getElementById("step1").style.display = 'block'
+            document.getElementById("step2").style.display = "none"
+        }
+        document.getElementById("prev").addEventListener("click",prev)
+        const submitHandler=async(event)=>{
+            event.preventDefault();
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const phonenum = document.getElementById("phonenumber").value;
+            const type = document.getElementById("type").value;
+            const password = document.getElementById("password").value
+
+    // Create an object with the form data
+            const formDataObject = {
+              name: name,
+              email: email,
+             phonenum: phonenum,
+               type: type,
+               password:password
+            };
+            console.log("success submission")
+            try{
+            const response=await axios.post("http://localhost:5000/blogin",formDataObject);
+            if (response.data.status==="success"){
+                alert("account successfully created")
+                //console.log("error in connecting with database")
+                console.log(formDataObject)
+                console.log(response.data)
+                let url="http://localhost:5000/downloads/accounts/"+response.data.insertedId
+                console.log("download button creation process")
+                const download = () => {
+                        const downloadLink = document.getElementById("downloadLink");
+                        downloadLink.href = url;
+                        downloadLink.click();
+                    };
+                document.getElementById("download").addEventListener("click",download)
+                document.getElementById("downloadcontainer").style.display="block";
+
+            }else{
+                alert(response.data.status)
+            }}
+            catch(err){
+                console.log(err)
+                
+            }
+            return false
+        }
+        document.getElementById("submit1").addEventListener('click',submitHandler);
+    </script>
+</body>
+
+</html>

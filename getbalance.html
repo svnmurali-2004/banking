@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Balance</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #getBalanceForm {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input {
+            margin-bottom: 15px;
+        }
+
+        #balance {
+            height: 40px; /* Adjust the height as needed */
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <form id="getBalanceForm">
+            <label>
+                Enter Name: <input type="text" id="name" value="" disabled/>
+            </label><br /><br/><br/>
+            <label>
+                Balance: <input size="height:20px" type="number" id="balance" disabled /><br/>
+                <input type="button" value="Get Balance" onclick="getBalance()" />
+            </label>
+        </form>
+    </div>
+
+    <script>
+        if (sessionStorage.getItem("islogin")!="true"){
+            window.location.href=""
+        }
+        const formData=JSON.parse(sessionStorage.getItem("logindetails"))
+
+        console.log(formData)
+        document.getElementById("name").value=formData.name
+        async function getBalance() {
+            try {
+                const response = await axios.post("http://localhost:5000/getBalance", formData);
+                console.log(response.data);
+                document.getElementById("balance").value = response.data.bal;
+            } catch (error) {
+                console.error("Error fetching balance:", error);
+                // Handle error - show an alert, log it, or provide user feedback
+            }
+        }
+    </script>
+</body>
+
+</html>
+
