@@ -47,7 +47,7 @@
                     sender:sender,amount:amount,receiver:receiver
                 }
                 console.log("before axios")
-                 response=await axios.post("http://localhost:5000/gettransaction",formDataObject)
+                 response=await axios.post("https://svnmbanking.onrender.com/gettransaction",formDataObject)
                 console.log(response.data)
                 console.log(response.data._id)
                 if (response.data.status=="success"){
