@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <style>
         body {
             display: flex;
@@ -71,6 +72,7 @@
             <p>Don't have an account? <a onclick="signup()">Click to sign up</a></p>
         </form>
     </div>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
     <footer><a id="op" style="display:none;"></a></footer>
     
     <script>
@@ -103,6 +105,13 @@
         document.getElementById("loginForm").addEventListener("submit", submitHandler);
         async function signup(){
             window.location.href="/signup"
+        }
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            var name = profile.getName();
+            var email = profile.getEmail();
+            // Handle Google Sign-In, e.g., send user data to the server
+            console.log("Signed in as: " + name + " (" + email + ")");
         }
     </script>
 </body>
